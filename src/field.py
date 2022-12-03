@@ -41,13 +41,19 @@ class Field():
             self.moveYTimer = 0
             self.playerShape.move(0, 1)
         
+        # events
+        # move
         if (events['left'] or events['right'] or events['down']) and self.playerMoveTimer >= self.playerMoveDelay:
             self.playerMoveTimer = 0
             self.playerShape.move(events['right'] - events['left'], events['down'])
-        
+        # rotate
         if events['rotate']:
             self.playerShape.rotate()
             events['rotate'] = False
+        # drop
+        if events['drop']:
+            self.playerShape.drop()
+            events['drop'] = False
 
         self.playerShape.update()
 

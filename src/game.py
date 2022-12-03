@@ -20,7 +20,8 @@ class Game():
             'left': False,
             'right': False,
             'down': False,
-            'rotate': False
+            'rotate': False,
+            'drop': False
         }
         while run:
             # screen clear
@@ -41,6 +42,8 @@ class Game():
                         events['down'] = True
                     elif event.key == pygame.K_w:
                         events['rotate'] = True
+                    elif event.key == pygame.K_SPACE:
+                        events['drop'] = True
 
                 elif event.type == pygame.KEYUP:
                     if event.key == pygame.K_d:
@@ -51,6 +54,8 @@ class Game():
                         events['down'] = False
                     elif event.key == pygame.K_w:
                         events['rotate'] = False
+                    elif event.key == pygame.K_SPACE:
+                        events['drop'] = False
 
             # field update
             field = self.field.update(events)
