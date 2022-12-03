@@ -1,0 +1,5 @@
+{
+    "WINDOW_SIZE": [320, 640],
+    "SCREEN_SIZE": [160,320],
+    "FPS": 30
+}
