@@ -5,11 +5,12 @@ from src.shape import Shape
 class Field():
     SHAPE_SIZE = 16
 
-    def __init__(self):
+    def __init__(self, GHOST_SHAPE):
         # setup
         self.field = [[0 for i in range(10)] for i in range(20)]
         self.nonPlayShapes = [[0 for i in range(10)] for i in range(20)]
         self.surface = pygame.Surface((160, 320))
+        self.ghostShape = GHOST_SHAPE
 
         # setup timers
         self.moveYDelay = 15

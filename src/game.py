@@ -9,7 +9,7 @@ class Game():
         self.settings = settings
         self.clock = pygame.time.Clock()
 
-        self.field = Field()
+        self.field = Field(settings['GHOST_SHAPE'])
 
         # main cycle
         self.run()

@@ -1,5 +1,6 @@
 {
-    "WINDOW_SIZE": [320, 640],
+    "WINDOW_SIZE": [240,480],
     "SCREEN_SIZE": [160,320],
-    "FPS": 30
+    "FPS": 30,
+    "GHOST_SHAPE": true
 }

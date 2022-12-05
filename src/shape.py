@@ -2,9 +2,10 @@ import json
 import random
 
 class Shape():
-    def __init__(self, field):
+    def __init__(self, field, ghostShape):
         # setup
         self.field = field
+        self.ghostShape = ghostShape
         self.setShape()
 
         # coordinates
@@ -12,8 +13,12 @@ class Shape():
         self.y = self._upAsPossible()
     
     def update(self):
+        # insert ghost shape if enabled in settings.json
+        if self.ghostShape:
+            self.insertGhost()
+        
+        # insert shape to the field
         self.insert(self.x, self.y)
-        self.insertGhost()
 
     def insert(self, posX, posY, field=None, shape=None):
         field = self.field.field if field is None else field
@@ -51,6 +56,7 @@ class Shape():
         del shape, shapes
 
     def tryToInsert(self, posX, posY, shape=None):
+        # try to insert shape in field
         shape = self.shape if shape is None else shape
         try:
             for iy, y in enumerate(shape):
@@ -63,6 +69,7 @@ class Shape():
 
 
     def move(self, moveX, moveY):
+        # move shape
         if self.tryToInsert(self.x + moveX, self.y):
             self.x += moveX
 
@@ -111,9 +118,6 @@ class Shape():
         return False
 
     def _downAsPossible(self):
-        #for y in range(20, -1, -1):
-        #    if self.tryToInsert(self.x, y):
-        #        return y
         maxY = 0
         for y in range(20):
             if self.tryToInsert(self.x, y):
