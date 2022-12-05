@@ -2,11 +2,12 @@ import json
 import random
 
 class Shape():
-    def __init__(self, field, ghostShape):
+    def __init__(self, field, shape):
         # setup
         self.field = field
-        self.ghostShape = ghostShape
-        self.setShape()
+        
+        # set shape
+        self.shape = shape
 
         # coordinates
         self.x = 3
@@ -14,7 +15,7 @@ class Shape():
     
     def update(self):
         # insert ghost shape if enabled in settings.json
-        if self.ghostShape:
+        if self.field.ghostShape:
             self.insertGhost()
         
         # insert shape to the field
@@ -30,8 +31,6 @@ class Shape():
 
     def insertGhost(self):
         posY = self._downAsPossible()
-        if posY < self.y + self._getHeight():
-            return False
 
         for iy, y in enumerate(self.shape):
             for ix, x in enumerate(y):
@@ -40,20 +39,6 @@ class Shape():
     
     def drop(self):
         self.y = self._downAsPossible()
-
-    def setShape(self):
-        # get shapes from shapes.json
-        with open('src/shapes.json') as f:
-            shapes = json.load(f)
-            f.close()
-        
-        # choose shape
-        shape = random.choice(shapes['shapes'])
-        #shape = shapes['shapes'][6]
-
-        # set shape
-        self.shape = shape
-        del shape, shapes
 
     def tryToInsert(self, posX, posY, shape=None):
         # try to insert shape in field
@@ -66,7 +51,6 @@ class Shape():
             return True
         except IndexError:
             return False
-
 
     def move(self, moveX, moveY):
         # move shape

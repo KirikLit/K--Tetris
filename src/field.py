@@ -1,5 +1,6 @@
 import pygame
 import json
+import random
 from src.shape import Shape
 
 class Field():
@@ -11,6 +12,7 @@ class Field():
         self.nonPlayShapes = [[0 for i in range(10)] for i in range(20)]
         self.surface = pygame.Surface((160, 320))
         self.ghostShape = GHOST_SHAPE
+        self.shapeList = []
 
         # setup timers
         self.moveYDelay = 15
@@ -18,6 +20,11 @@ class Field():
 
         self.playerMoveDelay = 3
         self.playerMoveTimer = 0
+
+        # load shapes
+        with open('src/shapes.json') as f:
+            self.shapes = json.load(f)['shapes']
+            f.close()
 
         # image
         self.block = pygame.image.load('src/res/block.png')
@@ -89,7 +96,7 @@ class Field():
             light = not light
     
     def createShape(self):
-        self.playerShape = Shape(self)
+        self.playerShape = Shape(self, self.getShape())
 
     def colorizedBlock(self, color):
         # get colors from json
@@ -124,6 +131,25 @@ class Field():
 
         # update field with new nonPlayShapes
         self._pasteNonPlayShapes()
+
+    def getShape(self):
+        # refill shapeList if it is empty
+        if len(self.shapeList) == 0:
+            self._setShapeList()
+        
+        # choose index of new shape
+        shapeIndex = random.randint(0, len(self.shapeList) - 1)
+        # set shape
+        shape = self.shapeList[shapeIndex]
+        # delete choosen shape
+        self.shapeList.pop(shapeIndex)
+        
+        # return choosen shape
+        return shape
+
+    def _setShapeList(self):
+        self.shapeList = self.shapes.copy()
+        random.shuffle(self.shapeList)
 
     def _pasteNonPlayShapes(self):
         # mix field with nonPlayShapes
